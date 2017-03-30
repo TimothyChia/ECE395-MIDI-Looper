@@ -21,30 +21,23 @@ Target DLL:      UL2CM3.DLL V1.157.18.0
 Dialog DLL:      TARMP1.DLL V1.25.0.0
  
 <h2>Project:</h2>
-C:\althaus1_ece395\Spring 2017\LCD Test\LCD Test.uvproj
-Project File Date:  03/07/2017
+C:\althaus1_ece395\ECE395-MIDI-Looper\LCD Test\LCD Test.uvproj
+Project File Date:  03/30/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 2 (build 183)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_LPC11xx.s...
 compiling main.c...
-main.c(5): error:  #5: cannot open source input file "lcd.h": No such file or directory
-  #include <lcd.h>
-main.c: 0 warnings, 1 error
+main.c(27): warning:  #111-D: statement is unreachable
+  	return 0;
+main.c: 1 warning, 0 errors
 compiling system_LPC11xx.c...
 compiling driverTester.c...
-msp430-lcd-master\driverTester.c(15): warning:  #1-D: last line of file ends without a newline
-  */
-msp430-lcd-master\driverTester.c: 1 warning, 0 errors
 compiling lcd.c...
-msp430-lcd-master\lcd.c(22): warning:  #223-D: function "__delay_cycles" declared implicitly
-  		__delay_cycles(LCD_MS_DELAY_CYCLES);
-msp430-lcd-master\lcd.c(29): warning:  #223-D: function "__delay_cycles" declared implicitly
-  		__delay_cycles(LCD_US_DELAY_CYCLES);
-msp430-lcd-master\lcd.c: 2 warnings, 0 errors
-".\Objects\LCD Test.axf" - 1 Error(s), 3 Warning(s).
-Target not created.
+linking...
+Program Size: Code=1404 RO-data=224 RW-data=4 ZI-data=612  
+".\Objects\LCD Test.axf" - 0 Error(s), 1 Warning(s).
 Build Time Elapsed:  00:00:00
 </pre>
 </body>

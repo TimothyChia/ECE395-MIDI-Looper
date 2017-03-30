@@ -6,3 +6,5 @@
 .\objects\main.o: C:\Keil_v5\ARM\CMSIS\Include\core_cmInstr.h
 .\objects\main.o: C:\Keil_v5\ARM\CMSIS\Include\core_cmFunc.h
 .\objects\main.o: C:\Keil_v5\ARM\Inc\NXP\LPC11xx\system_LPC11xx.h
+.\objects\main.o: .\msp430-lcd-master\lcd.h
+.\objects\main.o: .\msp430-lcd-master\lcd_config.h

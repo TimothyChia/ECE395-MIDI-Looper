@@ -14,19 +14,21 @@
 	#define LCD_MS_DELAY_CYCLES 1000
 #endif
 
+#define MAX_RATE 50000000
+
 uint8_t lcd_pins[4] = {LCD_D4, LCD_D5, LCD_D6, LCD_D7};
 
 void lcd_delay_ms(uint16_t t) {
   uint16_t i;
-	for (i = 0; i < t; i++) {
-		__delay_cycles(LCD_MS_DELAY_CYCLES);
+	for (i = 0; i < t*MAX_RATE/1000; i++) {
+	//	__delay_cycles(LCD_MS_DELAY_CYCLES);
 	}
 }
 
 void lcd_delay_us(uint16_t t) {
   uint16_t i;
-	for (i = 0; i < t; i++){
-		__delay_cycles(LCD_US_DELAY_CYCLES);
+	for (i = 0; i < t*MAX_RATE/1000000; i++){
+	//	__delay_cycles(LCD_US_DELAY_CYCLES);
 	}
 }
 
