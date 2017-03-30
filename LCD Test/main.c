@@ -5,19 +5,24 @@
 #include "lcd.h"
 
 
-/*
+
 void configureGPIO()
 {
-	int i;
-	//enable clocks to GPIO block
+
+	//enable clocks to GPIO block. pg 34 of manual.
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  6);
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  16);
 }
-*/
+
 
 int main()
 {	
+	configureGPIO();
   lcd_init();
+
+	//LCD_PORT |= LCD_RS;
+
+while(1);
   lcd_go_line(1);
   lcd_writeln("Hello");
   lcd_go_line(2);
