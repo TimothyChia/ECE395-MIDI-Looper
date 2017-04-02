@@ -426,6 +426,11 @@
               <FileType>1</FileType>
               <FilePath>.\system_LPC11xx.c</FilePath>
             </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Serial.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

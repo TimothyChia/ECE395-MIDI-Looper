@@ -1,9 +1,11 @@
 --cpu Cortex-M0
-".\objects\startup_lpc11xx.o"
-".\objects\system_lpc11xx.o"
 ".\objects\main.o"
 ".\objects\drivertester.o"
 ".\objects\lcd.o"
+".\objects\serial.o"
+".\objects\retarget.o"
+".\objects\system_lpc11xx.o"
+".\objects\startup_lpc11xx.o"
 --strict --scatter ".\Objects\LCD Test.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
