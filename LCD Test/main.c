@@ -19,31 +19,33 @@ void configureGPIO()
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  16);
 }
 
+void printPins(uint32_t reg)
+{
+	int i;
+	int state;
+	for(i=0;i<8;i++) //change break condition for more pins
+	{
+		state = (reg >> i) & 1;
+		printf("Pin %x is %x\n",i,state);
+	}
+	return;
+}
+
 
 int main()
 {	
 	SER_init();	
 	configureGPIO();
-  //lcd_init();	
-
-//	printf("%x \n", ~(LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS) );
-//pins 4 and 5 are not working! check chapter 12.
 	
-	LCD_DIR |= LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS; //set pins to output
-  LCD_PORT &= ~(LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS); //clear pins
-	printf("After setting Pin Direction: %x \n",LCD_PORT);
-  printf("After clearing pins: %x \n",LCD_PORT);
-	LCD_PORT |= LCD_DATA_PINS;
-	//LCD_PORT &= ~LCD_RS;
-	printf("Current State of Register %x \n",LCD_PORT);
+	//printPins(0xf1f);
 	
-while(1);
-	
+  lcd_init();		
 	
   lcd_go_line(1);
   lcd_writeln("Hello");
-  lcd_go_line(2);
+	lcd_go_line(2);
   lcd_writeln("World");
+	printf("Main.c complete.\n");
   //_BIS_SR(LPM3_bits);
 	while (1) {}
 	return 0;

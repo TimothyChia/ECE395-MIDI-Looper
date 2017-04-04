@@ -414,26 +414,6 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
-          <Files>
-            <File>
-              <FileName>startup_LPC11xx.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\startup_LPC11xx.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_LPC11xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\system_LPC11xx.c</FilePath>
-            </File>
-            <File>
-              <FileName>Serial.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Serial.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>driver</GroupName>
           <Files>
             <File>
@@ -460,6 +440,31 @@
               <FileName>lcd_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\msp430-lcd-master\lcd_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>Retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Retarget.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Startup</GroupName>
+          <Files>
+            <File>
+              <FileName>system_LPC11xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\system_LPC11xx.c</FilePath>
+            </File>
+            <File>
+              <FileName>startup_LPC11xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\startup_LPC11xx.s</FilePath>
             </File>
           </Files>
         </Group>

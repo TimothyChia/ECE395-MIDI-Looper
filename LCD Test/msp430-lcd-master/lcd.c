@@ -14,20 +14,23 @@
 	#define LCD_MS_DELAY_CYCLES 1000
 #endif
 
-#define MAX_RATE 50000000
+#define MAX_RATE 50000 //A guess at how many for loop cycles per second.
 
 uint8_t lcd_pins[4] = {LCD_D4, LCD_D5, LCD_D6, LCD_D7};
 
 void lcd_delay_ms(uint16_t t) {
-  uint16_t i;
-	for (i = 0; i < t*MAX_RATE/1000; i++) {
+  uint32_t i;
+	uint32_t numCyc=t*MAX_RATE/1000;
+	for (i = 0; i < numCyc ; i++) {
 	//	__delay_cycles(LCD_MS_DELAY_CYCLES);
 	}
+	
 }
 
 void lcd_delay_us(uint16_t t) {
-  uint16_t i;
-	for (i = 0; i < t*MAX_RATE/1000000; i++){
+  uint32_t i;
+	uint32_t numCyc=t*MAX_RATE/1000000;
+	for (i = 0; i < numCyc; i++){
 	//	__delay_cycles(LCD_US_DELAY_CYCLES);
 	}
 }
@@ -97,8 +100,8 @@ void lcd_writeln(const char *str) {
 }
 
 void lcd_init(void) {
-  LCD_DIR |= LCD_RS | LCD_EN | LCD_DATA_PINS; //set pins to output
-  LCD_PORT &= ~(LCD_RS | LCD_EN | LCD_DATA_PINS); //clear pins
+  LCD_DIR |= LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS; //set pins to output
+  LCD_PORT &= ~(LCD_RS | LCD_RW  | LCD_EN | LCD_DATA_PINS); //clear pins
 
   lcd_delay_ms(20); // give lcd time to startup
 
