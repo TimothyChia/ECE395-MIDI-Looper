@@ -19,28 +19,19 @@ void configureGPIO()
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  16);
 }
 
-void printPins(uint32_t reg)
-{
-	int i;
-	int state;
-	for(i=0;i<8;i++) //change break condition for more pins
-	{
-		state = (reg >> i) & 1;
-		printf("Pin %x is %x\n",i,state);
-	}
-	return;
-}
 
 
 int main()
-{	
-	SER_init();	
+{
+	SER_init();
 	configureGPIO();
 	
-	//printPins(0xf1f);
-	
-  lcd_init();		
-	
+	printf("\n\nTest Serial at beginning\n");
+
+  lcd_init();
+	printf("init complete.\n");
+
+	while(1);
   lcd_go_line(1);
   lcd_writeln("Hello");
 	lcd_go_line(2);

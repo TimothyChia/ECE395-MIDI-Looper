@@ -2,6 +2,10 @@
 #include "LPC11xx.h"
 #include "lcd_config.h"
 #include "lcd.h"
+//Get rid of this once done with printf
+#include <stdio.h>
+#include <rt_misc.h> //for Serial monitor?
+
 
 #if LCD_FCPU == 8000000
 	#define LCD_US_DELAY_CYCLES 8
@@ -18,13 +22,26 @@
 
 uint8_t lcd_pins[4] = {LCD_D4, LCD_D5, LCD_D6, LCD_D7};
 
+
+void printPins(uint32_t reg)
+{
+	int i;
+	int state;
+	for(i=0;i<8;i++) //change break condition for more pins
+	{
+		state = (reg >> i) & 1;
+		printf("Pin %x is %x\n",i,state);
+	}
+	return;
+}
+
 void lcd_delay_ms(uint16_t t) {
   uint32_t i;
 	uint32_t numCyc=t*MAX_RATE/1000;
 	for (i = 0; i < numCyc ; i++) {
-	//	__delay_cycles(LCD_MS_DELAY_CYCLES);
+		// __delay_cycles(LCD_MS_DELAY_CYCLES);
 	}
-	
+
 }
 
 void lcd_delay_us(uint16_t t) {
@@ -35,18 +52,29 @@ void lcd_delay_us(uint16_t t) {
 	}
 }
 
-void lcd_send4(uint8_t data) {
+void lcd_send4(uint8_t data) { //assumes RW and RS pins are set correctly
 	uint8_t i;
+	//printf("data is %x",data);
+
   LCD_PORT |= LCD_EN;
 	for (i = 0; i < 4; i++) {
 		if (data & (1 << i)){
+		//	printf("writing to pin using %x\n",lcd_pins[i]);
 			LCD_PORT |= lcd_pins[i];
 		} else {
 			LCD_PORT &= ~lcd_pins[i];
 		}
-	}
+	//	printf("%x",LCD_PORT);
+	}	
   lcd_delay_us(1);
-  LCD_PORT &= ~LCD_EN;
+ //	printf("%x",LCD_PORT);
+	printf("%x", LCD_EN);
+	printf("%x",~LCD_EN);
+	LCD_PORT &= ~LCD_EN;
+//	printf("%x",LCD_PORT);
+	
+	while(1);
+	//	printPins(LCD_PORT);
   LCD_PORT &= ~(LCD_DATA_PINS);
   lcd_delay_us(1);
 }
@@ -58,7 +86,7 @@ void lcd_send(uint8_t cmd, uint8_t data) {
     LCD_PORT |= LCD_RS;
   }
 
-  lcd_send4(data >> 4);
+  lcd_send4(data >> 4); // send pins 4-7
 
   if (cmd & LCD_CMD) {
     lcd_delay_ms(5);
@@ -66,7 +94,7 @@ void lcd_send(uint8_t cmd, uint8_t data) {
     lcd_delay_us(1);
   }
 
-  lcd_send4(data & 0x0F);
+  lcd_send4(data & 0x0F); // send data for LCD pins 0-3
 
   if (cmd & LCD_DATA) {
     LCD_PORT &= ~LCD_RS;
@@ -103,21 +131,34 @@ void lcd_init(void) {
   LCD_DIR |= LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS; //set pins to output
   LCD_PORT &= ~(LCD_RS | LCD_RW  | LCD_EN | LCD_DATA_PINS); //clear pins
 
-  lcd_delay_ms(20); // give lcd time to startup
+	//printPins(LCD_DIR);
 
-  lcd_send4(0x03);
-  lcd_delay_ms(5);
+  lcd_delay_ms(100); //Wait >40msec
+	lcd_send4(0x03);
+	lcd_delay_ms(30); //wait 5ms
+	lcd_send4(0x03);
+  lcd_delay_ms(10); //wait 160us
+	lcd_send4(0x03);
+  lcd_delay_ms(10); //wait 160us
 
   if (LCD_MODE == LCD_MODE_4) {
     lcd_send4(0x02);
     lcd_delay_us(37);
-  }
+  }//Function set: 4-bit interface
+lcd_cmd(0x28); //Function set: 4-bit/2-line
 
-  lcd_cmd(0x28);
-  lcd_cmd(0x01);
-  lcd_cmd(0x06);
-  lcd_delay_us(1200);
-  lcd_cmd(0x0C);
+lcd_cmd(0x00);
+while(1);
+lcd_cmd(0x10); //Set cursor
+lcd_cmd(0x0F); //Display ON; Blinking cursor
+lcd_cmd(0x06); //Entry Mode set
+
+//Original Commands someone wrote
+  // lcd_cmd(0x28);
+  // lcd_cmd(0x01);
+  // lcd_cmd(0x06);
+  // lcd_delay_us(1200);
+  // lcd_cmd(0x0C);
 }
 
 void lcd_go(uint8_t row, uint8_t col) {
@@ -135,4 +176,3 @@ void lcd_go(uint8_t row, uint8_t col) {
 void lcd_go_line(uint8_t line) {
   lcd_go(line, 0);
 }
-
