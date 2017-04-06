@@ -17,6 +17,7 @@ void configureGPIO()
 	//enable clocks to GPIO block. pg 34 of manual.
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  6);
 	LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  16);
+	// LPC IOCON for the pullup resistor.
 }
 
 
@@ -25,13 +26,12 @@ int main()
 {
 	SER_init();
 	configureGPIO();
-	
+
 	printf("\n\nTest Serial at beginning\n");
 
   lcd_init();
 	printf("init complete.\n");
 
-	while(1);
   lcd_go_line(1);
   lcd_writeln("Hello");
 	lcd_go_line(2);
