@@ -54,27 +54,21 @@ void lcd_delay_us(uint16_t t) {
 
 void lcd_send4(uint8_t data) { //assumes RW and RS pins are set correctly
 	uint8_t i;
-	//printf("data is %x",data);
+	printf("data is %x\n",data);
 
   LCD_PORT |= LCD_EN;
+
 	for (i = 0; i < 4; i++) {
 		if (data & (1 << i)){
-		//	printf("writing to pin using %x\n",lcd_pins[i]);
 			LCD_PORT |= lcd_pins[i];
 		} else {
 			LCD_PORT &= ~lcd_pins[i];
 		}
-	//	printf("%x",LCD_PORT);
-	}	
+	}
+
   lcd_delay_us(1);
- //	printf("%x",LCD_PORT);
-	printf("%x", LCD_EN);
-	printf("%x",~LCD_EN);
 	LCD_PORT &= ~LCD_EN;
-//	printf("%x",LCD_PORT);
-	
-	while(1);
-	//	printPins(LCD_PORT);
+
   LCD_PORT &= ~(LCD_DATA_PINS);
   lcd_delay_us(1);
 }
@@ -130,8 +124,14 @@ void lcd_writeln(const char *str) {
 void lcd_init(void) {
   LCD_DIR |= LCD_RS | LCD_RW | LCD_EN | LCD_DATA_PINS; //set pins to output
   LCD_PORT &= ~(LCD_RS | LCD_RW  | LCD_EN | LCD_DATA_PINS); //clear pins
-
-	//printPins(LCD_DIR);
+//turn off pull ups
+	 D4_IOCON &= ~(0x10);
+	 D5_IOCON &= ~(0x10);
+	 D6_IOCON &= ~(0x10);
+	 D7_IOCON &= ~(0x10);
+	 RS_IOCON &= ~(0x10);
+	 RW_IOCON &= ~(0x10);
+	 EN_IOCON &= ~(0x10);
 
   lcd_delay_ms(100); //Wait >40msec
 	lcd_send4(0x03);
@@ -147,18 +147,17 @@ void lcd_init(void) {
   }//Function set: 4-bit interface
 lcd_cmd(0x28); //Function set: 4-bit/2-line
 
-lcd_cmd(0x00);
-while(1);
-lcd_cmd(0x10); //Set cursor
-lcd_cmd(0x0F); //Display ON; Blinking cursor
-lcd_cmd(0x06); //Entry Mode set
+// lcd_cmd(0x00);
+// lcd_cmd(0x10); //Set cursor
+// lcd_cmd(0x0F); //Display ON; Blinking cursor
+// lcd_cmd(0x06); //Entry Mode set
 
 //Original Commands someone wrote
-  // lcd_cmd(0x28);
-  // lcd_cmd(0x01);
-  // lcd_cmd(0x06);
-  // lcd_delay_us(1200);
-  // lcd_cmd(0x0C);
+  lcd_cmd(0x28);
+  lcd_cmd(0x01);
+  lcd_cmd(0x06);
+  lcd_delay_us(1200);
+  lcd_cmd(0x0C);
 }
 
 void lcd_go(uint8_t row, uint8_t col) {

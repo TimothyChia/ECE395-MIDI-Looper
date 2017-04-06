@@ -15,6 +15,13 @@
 #define LCD_D7 (1UL<<4)
 #define LCD_FCPU 8000000
 
+#define D4_IOCON LPC_IOCON->PIO0_1
+#define D5_IOCON LPC_IOCON->PIO0_2
+#define D6_IOCON LPC_IOCON->PIO0_3
+#define D7_IOCON LPC_IOCON->PIO0_4
+#define RS_IOCON LPC_IOCON->PIO0_5
+#define RW_IOCON LPC_IOCON->PIO0_6
+#define EN_IOCON LPC_IOCON->PIO0_7 //clear bit 4 to disable internal pullups
 
 // how many rows and colums?
 // default is 16x2
