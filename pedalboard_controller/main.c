@@ -10,11 +10,28 @@ void configureGPIO()
 	//LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  6);
 	//LPC_SYSCON->SYSAHBCLKCTRL |= (1UL <<  16); //doesn't seem relevant to this program?
 
-	//LPC_SYSCON->SYSAHBCLKCTRL &= ~(1UL <<  6); //this is a good way to break the GPIO. 
-	
+	//LPC_SYSCON->SYSAHBCLKCTRL &= ~(1UL <<  6); //this is a good way to break the GPIO.
+
 	//set port 0_7 to output (high current drain in LPC1114)
     LPC_GPIO0->DIR |= (1<<7);
 }
+
+void relayInit()
+{
+	REL_DIR |= SEL_0 | SEL_1 | REL_OFF | REL_ON;
+	REL_DIR &=  ~(UP | DOWN)
+
+	REL_PORT |= SEL
+
+
+}
+
+void relOn(char i)
+{
+
+
+}
+
 
 void ledOn()
 {
@@ -22,7 +39,7 @@ void ledOn()
 }
 
 void ledOff()
-{						 
+{
 	LPC_GPIO0->DATA |= (1<<7);
 }
 
