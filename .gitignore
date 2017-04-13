@@ -241,3 +241,8 @@ pip-log.txt
 .#*
 *.uvgui.*
 *.uvopt
+*.lck
+pedalboard_controller_schematics/main.s#1
+*.s#2
+*.s#4
+pedalboard_controller_schematics/main.s#3
