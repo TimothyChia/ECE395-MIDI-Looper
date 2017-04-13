@@ -3,8 +3,11 @@
 #include <rt_misc.h>
 #include "relay_config.h"
 
+#define DIM 4	//number of relays, presets
+
 extern void SER_init (void);
 
+int presets[DIM][DIM];
 
 uint16_t sel_pins[2] = {SEL_0, SEL_1};
 uint16_t dir_pins[2] = {REL_RES, REL_SET};
@@ -41,7 +44,7 @@ void relSwitch(char num, char dir)
 	/*Width of enable pulse.*/
   for(i=0;i<5000;i++) //5000 ish seems an acceptable width by trial and error.
   {}
-		while(1); //tested current flow across relay, got 14 mA.
+
   REL_PORT |= dir_pins[dir];
 
   return;
@@ -59,7 +62,6 @@ void relayInit()
 
 	
 		relSwitch(0,1);
-	while(1);
 	
   for(i=0;i<4;i++)
   {
@@ -79,6 +81,11 @@ void ledOff()
 	LPC_GPIO0->DATA |= (1<<7);
 }
 
+void recallPreset(int preset)
+{
+	
+}
+
 int main()
 {
 	int i, j = 0;
@@ -87,9 +94,6 @@ int main()
   relayInit();
 	printf("Initialization complete.");
 
-
-	
-	//relSwitch(0,1);
 	while (1)
 	{
 		relSwitch(0,1);
