@@ -436,6 +436,11 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+            <File>
+              <FileName>relay_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\relay_config.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -450,6 +455,26 @@
               <FileName>Serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Serial.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Relay</GroupName>
+          <Files>
+            <File>
+              <FileName>relay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\relay.c</FilePath>
+            </File>
+            <File>
+              <FileName>relay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\relay.h</FilePath>
+            </File>
+            <File>
+              <FileName>relay_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\relay_config.h</FilePath>
             </File>
           </Files>
         </Group>
