@@ -29,7 +29,7 @@ void relSwitch(char num, char dir)
 
   if(dir>1)
     return;
-	
+
 
   /*Set the select pins. */
   for(i=0; i<2;i++)
@@ -60,9 +60,9 @@ void relayInit()
 	REL_PORT |= REL_SET | REL_RES;
 	REL_PORT &= ~(SEL_0 | SEL_1);
 
-	
+
 		relSwitch(0,1);
-	
+
   for(i=0;i<4;i++)
   {
     relSwitch(i,0);
@@ -83,7 +83,7 @@ void ledOff()
 
 void recallPreset(int preset)
 {
-	
+
 }
 
 int main()
@@ -109,4 +109,39 @@ int main()
 		j++;
 	}
 
+}
+
+int draftnewMain()
+{
+	char FS;
+	char itx;
+	char[6] = {FS_NEXT, FS_PREV, FS_R0, FS_R1, FS_R2, FS_R3};
+
+
+	char pre1 = 0;
+	char pre2 = 3;
+	char pre3 = 5;
+	char pre4 = 7;
+
+	char preAll[4] = {pre1,pre2,pre3,pre4};
+
+	char currPre = 0;
+	char localPre = 0;
+
+	while(1)
+	{
+	 FS = pollFS();
+
+	 if(FS == FS_NEXT)
+		{
+			currPre = (currPre+1)%4;
+			writePre( preAll[currPre] );
+		}
+	else if(FS== FS_PREV)
+else if()
+else if()
+else if()
+else if()
+else if()
+	}
 }
