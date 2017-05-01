@@ -1,4 +1,9 @@
-#include footswitch_config.h
+#ifndef __footswitch_H__
+#define __footswitch_H__
 
-void FSinit();
-char pollFS();
+#include "footswitch_config.h"
+
+void FSinit(void);
+int pollFS(void);
+
+#endif //__footswitch_H__

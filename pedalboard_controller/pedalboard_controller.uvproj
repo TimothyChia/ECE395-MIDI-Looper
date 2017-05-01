@@ -478,6 +478,26 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Footswitch</GroupName>
+          <Files>
+            <File>
+              <FileName>footswitch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\footswitch.c</FilePath>
+            </File>
+            <File>
+              <FileName>footswitch.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\footswitch.h</FilePath>
+            </File>
+            <File>
+              <FileName>footswitch_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\footswitch_config.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>

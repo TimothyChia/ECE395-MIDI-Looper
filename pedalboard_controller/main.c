@@ -2,10 +2,12 @@
 #include "LPC11xx.h"
 #include <rt_misc.h>
 #include "relay_config.h"
+#include "footswitch.h"
 
 #define DIM 4	//number of relays, presets
 
 extern void SER_init (void);
+extern int cycles;
 
 int presets[DIM][DIM];
 
@@ -25,8 +27,10 @@ void configureGPIO()
 /*Inputs:num is the relay number. Call with dir=0 to reset, dir=1 to set */
 void relSwitch(char num, char dir)
 {
-  int i;
 
+
+  int i;
+	//printf("relSwitching relay %x, and dir %x \n", num, dir);
   if(dir>1)
     return;
 
@@ -61,7 +65,7 @@ void relayInit()
 	REL_PORT &= ~(SEL_0 | SEL_1);
 
 
-		relSwitch(0,1);
+	//relSwitch(0,1);
 
   for(i=0;i<4;i++)
   {
@@ -81,9 +85,111 @@ void ledOff()
 	LPC_GPIO0->DATA |= (1<<7);
 }
 
-void recallPreset(int preset)
-{
+// void recallPreset(int preset)
+// {
+//
+// }
 
+void writePre(char inPre)
+{
+	int itx;
+	for(itx=0;itx<4;itx++)
+	{
+		if(inPre & (1<<itx) )
+		{
+			relSwitch(itx,1);
+		}
+		else
+			relSwitch(itx,0);
+	}
+}
+
+int draftnewMain()
+{
+	int FS;
+	int i;
+	int lastFS = -1;
+	int lastFSedge = 0;
+	char itx;
+	int minWidth = 50;
+	int currWidth = 0;
+	//char[6] = {FS_NEXT, FS_PREV, FS_R0, FS_R1, FS_R2, FS_R3};
+  char rel[4] = {FS_R0, FS_R1, FS_R2, FS_R3};
+	char pre[4] = {FS_P0, FS_P1, FS_P2, FS_P3};
+
+	// char pre1 = 0;
+	// char pre2 = 3;
+	// char pre3 = 5;
+	// char pre4 = 7;
+
+	char preAll[4][4] = {11,3,1,7,
+											  0,0,0,0,
+											0,0,0,0};
+
+	char currBank = 0;
+	char localPre = 0;
+
+
+
+	while(1)
+	{
+		// for (i = 0; i < 0x0002FFFFF; i++)
+		// 	{
+		// 	}
+
+	 FS = pollFS();
+
+
+	 if( (FS != lastFS) &&
+	 			(lastFS != -1)  )
+	 {
+	  printf("cycles = %d \n",cycles);
+		currWidth=0; //reset the width timer
+		lastFSedge=lastFS;
+		}
+
+
+			if(currWidth==5000){
+				//Handle relay footswitches
+				 for(itx=0;itx<4;itx++)
+				 {
+
+					 if(lastFSedge == rel[itx])
+						{
+							// printf("Changing relay \n");
+							if(localPre & (1<<itx) )
+							{
+								localPre &= ~(1<<itx);
+								relSwitch(itx,0);
+							}
+							else
+								{
+									localPre |= (1<<itx);
+									relSwitch(itx,1);
+								}
+						}
+				 }
+
+								  //Handle preset footswitches
+								  for(itx=0;itx<4;itx++)
+								  {
+
+								 	 if(lastFSedge == pre[itx])
+								 	  {
+				 								// printf("Changing preset \n");
+								 	 	 //currBank = (currPre+1)%4;
+								 		 localPre = preAll[currBank][itx];
+								 	 	 writePre( localPre );
+								 	  }
+								  }
+
+			 }
+
+	lastFS=FS;
+	currWidth++;
+	}
+
+	return 0;
 }
 
 int main()
@@ -92,56 +198,22 @@ int main()
 	SER_init();
 	configureGPIO();
   relayInit();
-	printf("Initialization complete.");
+	printf("Initialization complete.\n \n\n");
 
-	while (1)
-	{
-		relSwitch(0,1);
-		printf("Led On, Iteration %d\n\r", j);
-		for (i = 0; i < 0x0000FFFFF; i++)
-		{
-		}
-		relSwitch(0,0);
-		printf("Led Off, Iteration %d\n\r", j);
-		for (i = 0; i < 0x0000FFFFF; i++)
-		{
-		}
-		j++;
-	}
+	draftnewMain();
+	// while (1)
+	// {
+	// 	relSwitch(0,1);
+	// 	printf("Led On, Iteration %d\n\r", j);
+	// 	for (i = 0; i < 0x0000FFFFF; i++)
+	// 	{
+	// 	}
+	// 	relSwitch(0,0);
+	// 	printf("Led Off, Iteration %d\n\r", j);
+	// 	for (i = 0; i < 0x0000FFFFF; i++)
+	// 	{
+	// 	}
+	// 	j++;
+	// }
 
-}
-
-int draftnewMain()
-{
-	char FS;
-	char itx;
-	char[6] = {FS_NEXT, FS_PREV, FS_R0, FS_R1, FS_R2, FS_R3};
-
-
-	char pre1 = 0;
-	char pre2 = 3;
-	char pre3 = 5;
-	char pre4 = 7;
-
-	char preAll[4] = {pre1,pre2,pre3,pre4};
-
-	char currPre = 0;
-	char localPre = 0;
-
-	while(1)
-	{
-	 FS = pollFS();
-
-	 if(FS == FS_NEXT)
-		{
-			currPre = (currPre+1)%4;
-			writePre( preAll[currPre] );
-		}
-	else if(FS== FS_PREV)
-else if()
-else if()
-else if()
-else if()
-else if()
-	}
 }

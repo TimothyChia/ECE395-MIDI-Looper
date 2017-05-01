@@ -1,6 +1,7 @@
 /*
  * Define pins and ports here
  */
+ #include "LPC11xx.h"
 
 #define LCD_PORT LPC_GPIO0->DATA
 #define LCD_DIR LPC_GPIO0->DIR
